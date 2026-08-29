@@ -9,3 +9,7 @@
 
 controllers:
     resource: routing.controllers
+
+board_list:
+    path: /board
+    controller: App\Controller\BoardController::index
