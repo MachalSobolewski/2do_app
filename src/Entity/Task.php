@@ -19,6 +19,9 @@ class Task
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(targetEntity: BoardColumn::class, inversedBy: 'tasks')]
+    private BoardColumn $boardColumn;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,5 +50,15 @@ class Task
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getBoardColumn(): BoardColumn
+    {
+        return $this->boardColumn;
+    }
+
+    public function setBoardColumn(BoardColumn $boardColumn): void
+    {
+        $this->boardColumn = $boardColumn;
     }
 }
