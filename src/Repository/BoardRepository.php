@@ -31,6 +31,7 @@ class BoardRepository extends ServiceEntityRepository
             ->leftJoin('boardColumn.tasks', 'task')
             ->where('board.id = :id')
             ->setParameter('id', $id)
+            ->orderBy('boardColumn.position', 'ASC')
             ->getQuery()
             ->getOneOrNullResult();
     }

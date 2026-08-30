@@ -26,17 +26,23 @@ readonly class BoardColumnCreator
             throw new NotFoundHttpException('Nie znaleziono tablicy');
         }
 
-        $boardColumn = new BoardColumn();
-
-        $boardColumn
-            ->setName($form->get('name')->getData())
-            ->setBoard($board)
-        ;
+        $boardColumn = $this->makeColumn($form->get('name')->getData(), $board->getBoardColumns()->count(), $board);
 
         $this->em->persist($boardColumn);
 
         $this->em->flush();
 
         return $boardColumn;
+    }
+
+    public function makeColumn(string $name, int $position, Board $board): BoardColumn
+    {
+        $boardColumn = new BoardColumn();
+
+        return $boardColumn
+            ->setName($name)
+            ->setPosition($position)
+            ->setBoard($board)
+        ;
     }
 }

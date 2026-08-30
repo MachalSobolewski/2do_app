@@ -27,6 +27,9 @@ class BoardColumn
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'boardColumn', cascade: ['persist', 'remove'])]
     private Collection $tasks;
 
+    #[ORM\Column(type: 'integer')]
+    private int $position;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -76,5 +79,17 @@ class BoardColumn
     public function getBoard(): Board
     {
         return $this->board;
+    }
+
+    public function setPosition(int $position): BoardColumn
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getPosition(): int
+    {
+        return $this->position;
     }
 }

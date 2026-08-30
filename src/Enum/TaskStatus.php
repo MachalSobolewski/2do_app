@@ -4,6 +4,6 @@ namespace App\Enum;
 
 enum TaskStatus: string
 {
-    public const Pending = 'pending';
-    public const Completed = 'completed';
+    case Pending = 'pending';
+    case Completed = 'completed';
 }

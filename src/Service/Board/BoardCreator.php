@@ -3,7 +3,7 @@
 namespace App\Service\Board;
 
 use App\Entity\Board;
-use App\Entity\BoardColumn;
+use App\Service\BoardColumn\BoardColumnCreator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 
@@ -11,6 +11,7 @@ readonly class BoardCreator
 {
     public function __construct(
         private EntityManagerInterface $em,
+        private BoardColumnCreator $boardColumnCreator,
     ) {
     }
 
@@ -23,10 +24,8 @@ readonly class BoardCreator
 
         $defaultColumns = ['Do zrobienia', 'W trakcie', 'Zrobione'];
 
-        foreach ($defaultColumns as $name) {
-            $column = new BoardColumn();
-            $column->setName($name);
-            $column->setBoard($board);
+        foreach ($defaultColumns as $key => $name) {
+            $column = $this->boardColumnCreator->makeColumn($name, $key, $board);
 
             $this->em->persist($column);
         }

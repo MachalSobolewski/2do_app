@@ -36,6 +36,7 @@ class BoardType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Board::class,
+            'csrf_protection' => false,
         ]);
     }
 }

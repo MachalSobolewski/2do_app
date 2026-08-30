@@ -51,5 +51,24 @@
                     .catch(error => alert('Wystąpił problem z połączeniem lub zapisem.'));
             });
         });
+
+        document.getElementById('kanban-columns').addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('move-btn')) {
+                e.preventDefault();
+
+                const url = e.target.getAttribute('data-url');
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Nie można przenieść kolumny');
+                        // Po udanej zamianie w bazie, najprościej odświeżyć okno, by pokazać nowy układ
+                        window.location.reload();
+                    })
+                    .catch(error => alert(error.message));
+            }
+        });
     </script>
 {% endblock %}
