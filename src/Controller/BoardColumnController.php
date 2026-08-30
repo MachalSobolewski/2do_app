@@ -40,7 +40,11 @@ final class BoardColumnController extends AbstractController
         return new Response($form->getErrors(), 400);
     }
 
-    #[Route('/column/{id}/move/{direction}', name: 'board_column_move', methods: ['POST'])]
+    #[Route(
+        path: '/column/{id}/move/{direction}',
+        name: 'board_column_move',
+        methods: ['POST'])
+    ]
     public function move(int $id, string $direction, BoardColumnMover $boardColumnMover): Response
     {
         try {
