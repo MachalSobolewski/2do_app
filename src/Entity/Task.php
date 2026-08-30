@@ -19,8 +19,6 @@ class Task
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 

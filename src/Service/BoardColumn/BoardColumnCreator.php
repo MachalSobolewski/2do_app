@@ -23,7 +23,7 @@ readonly class BoardColumnCreator
         $board = $this->boardRepository->find($boardId);
 
         if (!$board) {
-            throw new NotFoundHttpException('Nie znaleziono tablicy');
+            throw new NotFoundHttpException('Board not found');
         }
 
         $boardColumn = $this->makeColumn($form->get('name')->getData(), $board->getBoardColumns()->count(), $board);

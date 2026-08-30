@@ -1,3 +1,4 @@
+//COLUMN ADD
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('ajax-column-form');
     const formBox = document.getElementById('form-container-box');
@@ -13,17 +14,18 @@ document.addEventListener('DOMContentLoaded', function () {
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
             .then(response => {
-                if (!response.ok) throw new Error('Błąd serwera');
+                if (!response.ok) throw new Error('ERROR');
                 return response.text();
             })
             .then(html => {
                 formBox.insertAdjacentHTML('beforebegin', html);
                 form.reset();
             })
-            .catch(error => alert('Wystąpił problem z połączeniem lub zapisem.'));
+            .catch(error => alert('ERROR'));
     });
 });
 
+// MOVE columns
 document.getElementById('2todo-columns').addEventListener('click', function (e) {
     if (e.target && e.target.classList.contains('move-btn')) {
         e.preventDefault();
@@ -42,6 +44,7 @@ document.getElementById('2todo-columns').addEventListener('click', function (e) 
     }
 });
 
+// MODAL OF TASK (add)
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('task-modal');
     const form = document.getElementById('popup-task-form');
@@ -117,6 +120,8 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => alert(error.message));
     });
 });
+
+//SORTABLE darg
 document.addEventListener('DOMContentLoaded', function () {
     const containers = document.querySelectorAll('.task-container');
 
@@ -139,8 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     fetch(url, {
                         method: 'POST',
                         headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                    })
-                        .then(response => {
+                    }).then(response => {
                             if (!response.ok) throw new Error('Błąd przy zapisywaniu zadania.');
 
                             const sourceCounter = document.getElementById('counter-' + sourceColumnId);
@@ -148,8 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             if (sourceCounter) sourceCounter.textContent = parseInt(sourceCounter.textContent) - 1;
                             if (targetCounter) targetCounter.textContent = parseInt(targetCounter.textContent) + 1;
-                        })
-                        .catch(error => {
+                        }).catch(error => {
                             alert(error.message);
                             window.location.reload();
                         });
@@ -157,4 +160,46 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+});
+
+//DELETE
+document.body.addEventListener('click', function (e) {
+    // TASK
+    if (e.target && e.target.classList.contains('delete-task-btn')) {
+        e.preventDefault();
+        if (!confirm('Czy na pewno chcesz usunąć zadanie?')) return;
+
+        const btn = e.target;
+        const url = btn.getAttribute('data-url');
+        const columnId = btn.getAttribute('data-column-id');
+        const taskRow = btn.closest('.task-item');
+
+        fetch(url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    taskRow.remove();
+                    const counter = document.getElementById('counter-' + columnId);
+                    if (counter) counter.textContent = parseInt(counter.textContent) - 1;
+                }
+            })
+            .catch(() => alert('Wystąpił błąd podczas usuwania zadania.'));
+    }
+    //COLUMN
+    if (e.target && e.target.classList.contains('delete-column-btn')) {
+        e.preventDefault();
+        if (!confirm('Czy na pewno chcesz usunąć kolumnę?')) return;
+
+        const btn = e.target;
+        const url = btn.getAttribute('data-url');
+        const columnBox = btn.closest('.column-item') || document.getElementById(btn.closest('[id^="column_"]').id);
+
+        fetch(url, { method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    columnBox.remove();
+                }})
+            .catch(() => alert('Wystąpił błąd podczas usuwania kolumny.'));
+    }
 });

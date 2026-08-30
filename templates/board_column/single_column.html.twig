@@ -20,9 +20,10 @@
                 Dodaj
             </button>
 
-            <span id="counter-{{ column.id }}" class="text-xs font-bold text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded">
-        {{ column.tasks|length }}
-    </span>
+            <span id="counter-{{ column.id }}" class="text-xs font-bold text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded">{{ column.tasks|length }}</span>
+
+            <button class="delete-column-btn text-xs text-slate-400 hover:text-rose-600 font-bold px-1"
+                    data-url="{{ url('board_column_delete', {'id': column.id}) }}">USUŃ</button>
         </div>
     </div>
 

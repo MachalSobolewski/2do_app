@@ -23,7 +23,7 @@ readonly class TaskCreator
         $column = $this->columnRepository->find($columnId);
 
         if (!$column) {
-            throw new NotFoundHttpException('Nie znaleziono kolumny');
+            throw new NotFoundHttpException('Column not found');
         }
 
         $task = $this->makeTask($form, $column);

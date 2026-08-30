@@ -23,7 +23,7 @@ readonly class BoardGetter
         $board = $this->boardRepository->getOneById($id);
 
         if (!$board) {
-            throw new NotFoundHttpException('Nie znaleziono tablicy');
+            throw new NotFoundHttpException('Board not found');
         }
 
         return $board;

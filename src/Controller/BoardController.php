@@ -10,6 +10,7 @@ use App\Form\BoardType;
 use App\Form\TaskType;
 use App\Service\Board\BoardCreator;
 use App\Service\Board\BoardGetter;
+use App\Service\ModelRemover;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,5 +86,16 @@ final class BoardController extends AbstractController
             'columnForm' => $columnForm->createView(),
             'taskForm' => $taskForm->createView(),
         ]);
+    }
+
+    #[Route(
+        path: '/{id}/delete',
+        name: 'board_delete',
+        methods: ['POST']
+    )]
+    public function delete(int $id, ModelRemover $remover): Response
+    {
+        $remover->delete($id, Board::class);
+        return $this->redirectToRoute('board_index');
     }
 }

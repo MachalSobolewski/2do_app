@@ -6,6 +6,11 @@
         </span>
     </div>
     <div class="text-xs text-indigo-600 font-medium text-right mt-4">
-        Otwórz tablicę &rarr;
+        Otwórz tablicę
+    </div>
+    <div class="text-xs text-indigo-600 font-medium text-right mt-2">
+        <form method="POST" action="{{ path('board_delete', {'id': board.id}) }}" onsubmit="return confirm('Na pewno chcesz usunąć tablicę?');">
+            <button type="submit" class="hover:text-rose-700 cursor-pointer">Usuń tablicę</button>
+        </form>
     </div>
 </a>

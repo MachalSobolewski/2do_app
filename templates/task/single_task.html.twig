@@ -1,5 +1,11 @@
-<div data-id="{{ task.id }}" class="bg-white p-3 rounded border border-slate-200 hover:border-slate-300 transition shadow-sm task-item cursor-grab active:cursor-grabbing select-none">
-    <h4 class="font-bold text-slate-800 text-sm">{{ task.name }}</h4>
+<div data-id="{{ task.id }}" class="bg-white p-3 rounded border border-slate-200 hover:border-slate-300 transition shadow-sm task-item cursor-grab relative group">
+    <div class="flex justify-between items-start gap-2">
+        <h4 class="font-bold text-slate-800 text-sm flex-1">{{ task.name }}</h4>
+
+        <button class="delete-task-btn text-xs text-slate-300 hover:text-rose-600 font-bold cursor-pointer px-1"
+                data-url="{{ url('task_delete', {'id': task.id}) }}"
+                data-column-id="{{ task.boardColumn.id }}">USUN</button>
+    </div>
     {% if task.description %}
         <p class="text-xs text-slate-500 mt-1">{{ task.description }}</p>
     {% endif %}
