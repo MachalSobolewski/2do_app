@@ -12,4 +12,14 @@ class BoardRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Board::class);
     }
+
+    public function getAllOrderedByName(): array
+    {
+        return $this->createQueryBuilder('boards')
+            ->select('boards', 'boardColumns')
+            ->leftJoin('boards.boardColumns', 'boardColumns')
+            ->orderBy('boards.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
