@@ -10,6 +10,9 @@
 controllers:
     resource: routing.controllers
 
-board_list:
-    path: /board
-    controller: App\Controller\BoardController::index
+root_redirect:
+    path: /
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults:
+        route: board_index
+        permanent: true
