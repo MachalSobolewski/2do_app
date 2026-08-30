@@ -1,0 +1,6 @@
+<div class="bg-white p-3 rounded border border-slate-200 hover:border-slate-300 transition shadow-sm task-item">
+    <h4 class="font-bold text-slate-800 text-sm">{{ task.name }}</h4>
+    {% if task.description %}
+        <p class="text-xs text-slate-500 mt-1">{{ task.description }}</p>
+    {% endif %}
+</div>

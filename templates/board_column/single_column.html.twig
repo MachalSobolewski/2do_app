@@ -13,22 +13,24 @@
         </div>
 
         <div class="flex items-center gap-2">
-            <a href="#" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 bg-white border border-slate-200 px-2 py-0.5 rounded transition">
-                + Dodaj
-            </a>
-            <span class="text-xs font-bold text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded">
-                {{ column.tasks|length }}
-            </span>
+            <button type="button" class="open-task-modal-btn text-xs font-bold text-indigo-600 hover:text-indigo-800 bg-white border border-slate-200 px-2 py-0.5 rounded transition cursor-pointer"
+                    data-column-id="{{ column.id }}"
+                    data-column-name="{{ column.name }}"
+                    data-action-url="{{ path('task_new', {'columnId': column.id}) }}">
+                Dodaj
+            </button>
+
+            <span id="counter-{{ column.id }}" class="text-xs font-bold text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded">
+        {{ column.tasks|length }}
+    </span>
         </div>
     </div>
 
-    <div class="space-y-3">
+    <div class="space-y-3 task-container" id="tasks-list-{{ column.id }}">
         {% for task in column.tasks %}
-            <div class="bg-white p-3 rounded border border-slate-200 shadow-sm">
-                <h4 class="font-bold text-slate-800 text-sm">{{ task.title }}</h4>
-            </div>
+            {% include 'task/single_task.html.twig' with {'task': task} %}
         {% else %}
-            <div class="text-center p-4 border border-dashed border-slate-300 rounded text-slate-400 text-xs italic">
+            <div class="no-tasks-placeholder text-center p-4 border border-dashed border-slate-300 rounded text-slate-400 text-xs italic">
                 Brak zadań
             </div>
         {% endfor %}

@@ -51,7 +51,7 @@ readonly class BoardColumnMover
                 $position = $column->getPosition() + 1;
                 break;
         }
-        var_dump($position, $board->getId());
+
         $nearest = $this->boardColumnRepository->findByBoardIdAndPosition($board->getId(), $position);
 
         if (!$nearest) {

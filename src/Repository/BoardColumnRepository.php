@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\BoardColumn;
-use App\Enum\MoveDirection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Task;
+use App\Form\TaskType;
+use App\Service\Task\TaskCreator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+
+final class TaskController extends AbstractController
+{
+    #[Route(
+        path: '/column/{columnId}/task/new',
+        name: 'task_new',
+        methods: ['POST']
+    )]
+    public function new(
+        int $columnId,
+        Request $request,
+        TaskCreator $taskCreator,
+    ): Response {
+        $form = $this->createForm(TaskType::class, new Task());
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = $taskCreator->create($columnId, $form);
+
+            $this->addFlash('success', 'Zadanie zostało dodane!');
+
+            return $this->render('task/single_task.html.twig', [
+                'task' => $task,
+            ]);
+        }
+
+        return new Response($form->getErrors(), 400);
+    }
+}

@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Board;
 use App\Entity\BoardColumn;
+use App\Entity\Task;
 use App\Form\BoardColumnType;
 use App\Form\BoardType;
+use App\Form\TaskType;
 use App\Service\Board\BoardCreator;
 use App\Service\Board\BoardGetter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -76,9 +78,12 @@ final class BoardController extends AbstractController
             'method' => 'POST',
         ]);
 
+        $taskForm = $this->createForm(TaskType::class, new Task());
+
         return $this->render('board/show.html.twig', [
             'board' => $board,
             'columnForm' => $columnForm->createView(),
+            'taskForm' => $taskForm->createView(),
         ]);
     }
 }

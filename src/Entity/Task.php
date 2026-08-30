@@ -42,9 +42,11 @@ class Task
         return $this->name;
     }
 
-    public function setName(?string $name): void
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -52,9 +54,11 @@ class Task
         return $this->description;
     }
 
-    public function setDescription(?string $description): void
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
     }
 
     public function getBoardColumn(): BoardColumn
@@ -62,8 +66,10 @@ class Task
         return $this->boardColumn;
     }
 
-    public function setBoardColumn(BoardColumn $boardColumn): void
+    public function setBoardColumn(BoardColumn $boardColumn): self
     {
         $this->boardColumn = $boardColumn;
+
+        return $this;
     }
 }
