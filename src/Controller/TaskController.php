@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Service\Task\TaskCreator;
+use App\Service\Task\TaskMover;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,13 +30,19 @@ final class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $task = $taskCreator->create($columnId, $form);
 
-            $this->addFlash('success', 'Zadanie zostało dodane!');
-
             return $this->render('task/single_task.html.twig', [
                 'task' => $task,
             ]);
         }
 
         return new Response($form->getErrors(), 400);
+    }
+
+    #[Route('/task/{taskId}/move-to/{targetColumnId}', name: 'task_move', methods: ['POST'])]
+    public function moveTask(int $taskId, int $targetColumnId, TaskMover $taskMover): Response
+    {
+        $taskMover->move($taskId, $targetColumnId);
+
+        return $this->json(['success' => true]);
     }
 }

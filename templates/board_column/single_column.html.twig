@@ -26,13 +26,12 @@
         </div>
     </div>
 
-    <div class="space-y-3 task-container" id="tasks-list-{{ column.id }}">
+    <div class="space-y-3 task-container"
+         id="tasks-list-{{ column.id }}"
+         data-move-url="{{ url('task_move', {'taskId': 'TASK_ID', 'targetColumnId': column.id}) }}">
+
         {% for task in column.tasks %}
             {% include 'task/single_task.html.twig' with {'task': task} %}
-        {% else %}
-            <div class="no-tasks-placeholder text-center p-4 border border-dashed border-slate-300 rounded text-slate-400 text-xs italic">
-                Brak zadań
-            </div>
         {% endfor %}
     </div>
 </div>

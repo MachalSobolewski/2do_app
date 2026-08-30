@@ -1,4 +1,4 @@
-<div class="bg-white p-3 rounded border border-slate-200 hover:border-slate-300 transition shadow-sm task-item">
+<div data-id="{{ task.id }}" class="bg-white p-3 rounded border border-slate-200 hover:border-slate-300 transition shadow-sm task-item cursor-grab active:cursor-grabbing select-none">
     <h4 class="font-bold text-slate-800 text-sm">{{ task.name }}</h4>
     {% if task.description %}
         <p class="text-xs text-slate-500 mt-1">{{ task.description }}</p>
