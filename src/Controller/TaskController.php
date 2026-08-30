@@ -42,8 +42,7 @@ final class TaskController extends AbstractController
     #[Route(
         path: '/task/{taskId}/move-to/{targetColumnId}',
         name: 'task_move',
-        methods: ['POST'])
-    ]
+        methods: ['POST'])]
     public function moveTask(int $taskId, int $targetColumnId, TaskMover $taskMover): Response
     {
         $taskMover->move($taskId, $targetColumnId);

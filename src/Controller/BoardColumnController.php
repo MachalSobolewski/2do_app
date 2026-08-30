@@ -43,8 +43,7 @@ final class BoardColumnController extends AbstractController
     #[Route(
         path: '/column/{id}/move/{direction}',
         name: 'board_column_move',
-        methods: ['POST'])
-    ]
+        methods: ['POST'])]
     public function move(int $id, string $direction, BoardColumnMover $boardColumnMover): Response
     {
         try {

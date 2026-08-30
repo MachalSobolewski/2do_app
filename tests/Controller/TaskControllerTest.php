@@ -81,6 +81,36 @@ class TaskControllerTest extends WebTestCase
         $this->assertSame($this->columnTarget->getId(), $task->getBoardColumn()->getId());
     }
 
+    public function testDeleteTask(): void
+    {
+        // given
+        $task = new Task();
+        $task
+            ->setName('Test task')
+            ->setDescription('Test description')
+            ->setBoardColumn($this->columnStart);
+
+        $this->em->persist($task);
+        $this->em->flush();
+
+        $taskId = $task->getId();
+
+        // when
+        $this->client->request(
+            'POST',
+            sprintf('/task/%d/delete', $taskId),
+            [],
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+
+        // then
+        $this->assertResponseIsSuccessful();
+
+        $deletedTask = $this->em->getRepository(Task::class)->find($taskId);
+        $this->assertNull($deletedTask);
+    }
+
     private function mockData(): void
     {
         $board = new Board();

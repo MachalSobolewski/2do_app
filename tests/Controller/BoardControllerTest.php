@@ -2,7 +2,11 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Board;
+use App\Entity\BoardColumn;
+use App\Entity\Task;
 use App\Repository\BoardRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -42,5 +46,44 @@ class BoardControllerTest extends WebTestCase
         $board = $boardRepository->findOneBy(['name' => $tableName]);
 
         $this->assertNotNull($board);
+    }
+
+    public function testDeleteBoard(): void
+    {
+        $client = static::createClient();
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+
+        // given
+        $board = new Board();
+        $board->setName('Table to Delete');
+        $em->persist($board);
+
+        $column = new BoardColumn();
+        $column
+            ->setName('Test Column')
+            ->setPosition(0)
+            ->setBoard($board);
+        $em->persist($column);
+
+        $task = new Task();
+        $task
+            ->setName('Test task')
+            ->setDescription('Test description')
+            ->setBoardColumn($column);
+        $em->persist($task);
+
+        $em->flush();
+
+        $boardId = $board->getId();
+
+        // when
+        $client->request('POST', sprintf('/board/%d/delete', $boardId));
+
+        // then
+        $this->assertResponseRedirects('/board/');
+        $client->followRedirect();
+
+        $deletedBoard = $em->getRepository(Board::class)->find($boardId);
+        $this->assertNull($deletedBoard);
     }
 }
