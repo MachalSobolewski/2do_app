@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.name }}{% endblock %}
+
+{% block body %}
+    <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-center">
+        <div>
+            <a href="{{ path('board_index') }}" class="text-xs text-indigo-600 hover:underline">&larr; Powrót do listy</a>
+            <h1 class="text-2xl font-bold text-slate-800 mt-1">{{ board.name }}</h1>
+        </div>
+        <button class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded transition">
+             Dodaj zadanie
+        </button>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        {% for column in board.boardColumns %}
+            <div class="bg-slate-100 rounded-lg p-4 border border-slate-200">
+
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="font-bold text-slate-700 text-sm flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full  bg-amber-500">
+                    </span>
+                        {{ column.name }}
+                    </h3>
+                    <span class="text-xs font-bold text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded">
+                    {{ column.tasks|length }}
+                </span>
+                </div>
+
+                <!-- Lista Zadań -->
+                <div class="space-y-3">
+                    {% for task in column.tasks %}
+                        <div class="bg-white p-3 rounded border border-slate-200 hover:border-slate-300 transition shadow-sm">
+                            <h4 class="font-bold text-slate-800 text-sm">{{ task.title }}</h4>
+                            {% if task.description %}
+                                <p class="text-xs text-slate-500 mt-1">{{ task.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="text-center p-4 border border-dashed border-slate-300 rounded text-slate-400 text-xs italic">
+                            Brak zadań
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

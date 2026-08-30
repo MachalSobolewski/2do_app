@@ -1,20 +1,11 @@
-<a href="#" class="group block bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-500 hover:shadow-md transition flex flex-col justify-between min-h-[140px]">
-    <div>
-        <div class="flex justify-between items-start mb-3">
-            <h3 class="font-bold text-slate-800 group-hover:text-indigo-600 transition text-base line-clamp-2">
-                {{ board.name }}
-            </h3>
-            <span class="text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded shrink-0">
-                {{ board.id }}
-
-                Liczba zadań: {{ board.countTask }}
-            </span>
-        </div>
+<a href="{{ path('board_show', {'id': board.id}) }}" class="block bg-white p-4 rounded-lg border border-slate-200 hover:border-indigo-500 transition">
+    <div class="flex justify-between items-start mb-2">
+        <h3 class="font-bold text-slate-800 text-base">{{ board.name }}</h3>
+        <span class="text-xs bg-slate-100 px-2 py-0.5 rounded text-slate-600">
+            Tasks: {{ board.countTask }}
+        </span>
     </div>
-
-    <div class="mt-4">
-        <div class="mt-3 pt-2 border-t border-slate-100 flex justify-end text-xs text-indigo-600 font-semibold group-hover:underline">
-            Otwórz tablicę &rarr;
-        </div>
+    <div class="text-xs text-indigo-600 font-medium text-right mt-4">
+        Otwórz tablicę &rarr;
     </div>
 </a>

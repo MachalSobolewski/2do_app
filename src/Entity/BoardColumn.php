@@ -21,7 +21,7 @@ class BoardColumn
     #[ORM\ManyToOne(targetEntity: Board::class, inversedBy: 'boardColumns')]
     private Board $board;
 
-    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'boardColumn')]
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'boardColumn', cascade: ['persist', 'remove'])]
     private Collection $tasks;
 
     public function __construct()

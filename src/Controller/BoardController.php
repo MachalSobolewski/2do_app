@@ -60,4 +60,18 @@ final class BoardController extends AbstractController
 
         return $this->redirectToRoute('app_board_index');
     }
+
+    #[Route('/board/{id}', name: 'board_show', methods: ['GET'])]
+    public function show(int $id, BoardGetter $boardGetter): Response
+    {
+        $board = $boardGetter->show($id);
+
+        if (!$board) {
+            throw $this->createNotFoundException('Nie znaleziono takiej tablicy.');
+        }
+
+        return $this->render('board/show.html.twig', [
+            'board' => $board,
+        ]);
+    }
 }

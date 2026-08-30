@@ -21,7 +21,7 @@ class Board
     #[Assert\Length(max: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: BoardColumn::class, mappedBy: 'board')]
+    #[ORM\OneToMany(targetEntity: BoardColumn::class, mappedBy: 'board', cascade: ['persist', 'remove'])]
     private Collection $boardColumns;
 
     public function __construct()

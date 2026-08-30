@@ -22,4 +22,16 @@ class BoardRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getOneById(int $id): ?Board
+    {
+        return $this->createQueryBuilder('board')
+            ->select('board', 'boardColumn', 'task')
+            ->leftJoin('board.boardColumns', 'boardColumn')
+            ->leftJoin('boardColumn.tasks', 'task')
+            ->where('board.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
