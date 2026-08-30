@@ -85,4 +85,48 @@ class BoardColumnControllerTest extends WebTestCase
         $deletedColumn = $em->getRepository(BoardColumn::class)->find($columnId);
         $this->assertNull($deletedColumn);
     }
+
+    public function testEditColumnName(): void
+    {
+        $client = static::createClient();
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+
+        // given
+        $board = new Board();
+        $board->setName('Test Table');
+        $em->persist($board);
+
+        $column = new BoardColumn();
+        $column
+            ->setName('Test Column')
+            ->setPosition(0)
+            ->setBoard($board);
+        $em->persist($column);
+
+        $em->flush();
+
+        $columnId = $column->getId();
+        $newName = 'New Name';
+
+        // when
+        $client->request(
+            'POST',
+            sprintf('/column/%d/edit', $columnId),
+            [
+                'board_column' => [
+                    'name' => $newName,
+                ],
+            ]
+        );
+
+        // then
+        $this->assertResponseRedirects(sprintf('/board/%d', $board->getId()));
+        $client->followRedirect();
+
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+
+        $updatedColumn = $em->getRepository(BoardColumn::class)->find($columnId);
+        $this->assertNotNull($updatedColumn);
+        $this->assertSame($newName, $column->getName());
+    }
 }

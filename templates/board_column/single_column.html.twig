@@ -1,15 +1,21 @@
-<div id="column_{{ column.id }}" class="bg-slate-100 rounded-lg p-4 border border-slate-200 w-full md:w-80 shrink-0 column-item">
+<div id="column_{{ column.id }}" class="bg-slate-100 rounded-lg p-4 border border-slate-200 w-full md:w-100 shrink-0 column-item">
 
     <div class="flex justify-between items-center mb-3">
         <div class="flex items-center gap-2">
             <div class="flex gap-1 mr-1">
                 <button class="move-btn text-xs bg-white border border-slate-300 px-1 rounded text-slate-500 hover:bg-slate-50 font-bold"
-                        data-url="{{ path('board_column_move', {'id': column.id, 'direction': 'left'}) }}"><-</button>
+                        data-url="{{ path('board_column_move', {'id': column.id, 'direction': 'left'}) }}"><</button>
                 <button class="move-btn text-xs bg-white border border-slate-300 px-1 rounded text-slate-500 hover:bg-slate-50 font-bold"
-                        data-url="{{ path('board_column_move', {'id': column.id, 'direction': 'right'}) }}">-></button>
+                        data-url="{{ path('board_column_move', {'id': column.id, 'direction': 'right'}) }}">></button>
             </div>
 
             <h3 class="font-bold text-slate-700 text-sm">{{ column.name }}</h3>
+            <button type="button"
+                    class="open-edit-column-modal-btn text-[11px] text-slate-400 hover:text-indigo-600 font-medium shrink-0 ml-1 cursor-pointer"
+                    data-column-name="{{ column.name }}"
+                    data-action-url="{{ path('board_column_edit', {'id': column.id}) }}">
+                Edytuj
+            </button>
         </div>
 
         <div class="flex items-center gap-2">

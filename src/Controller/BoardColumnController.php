@@ -6,6 +6,7 @@ use App\Entity\BoardColumn;
 use App\Form\BoardColumnType;
 use App\Service\BoardColumn\BoardColumnCreator;
 use App\Service\BoardColumn\BoardColumnMover;
+use App\Service\BoardColumn\BoardColumnNameEditor;
 use App\Service\ModelRemover;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -65,5 +66,17 @@ final class BoardColumnController extends AbstractController
         $remover->delete($id, BoardColumn::class);
 
         return $this->json(['success' => true]);
+    }
+
+    #[Route(
+        path: '/column/{id}/edit',
+        name: 'board_column_edit',
+        methods: ['POST']
+    )]
+    public function edit(int $id, Request $request, BoardColumnNameEditor $boardColumnNameEditor): Response
+    {
+        $boardColumn = $boardColumnNameEditor->edit($id, $request);
+
+        return $this->redirectToRoute('board_show', ['id' => $boardColumn->getBoard()->getId()]);
     }
 }

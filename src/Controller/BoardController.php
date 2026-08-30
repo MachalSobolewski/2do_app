@@ -79,12 +79,17 @@ final class BoardController extends AbstractController
             'method' => 'POST',
         ]);
 
+        $editColumnForm = $this->createForm(BoardColumnType::class, new BoardColumn(), [
+            'method' => 'POST',
+        ]);
+
         $taskForm = $this->createForm(TaskType::class, new Task());
 
         return $this->render('board/show.html.twig', [
             'board' => $board,
             'columnForm' => $columnForm->createView(),
             'taskForm' => $taskForm->createView(),
+            'editColumnForm' => $editColumnForm->createView(),
         ]);
     }
 

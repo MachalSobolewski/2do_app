@@ -203,3 +203,37 @@ document.body.addEventListener('click', function (e) {
             .catch(() => alert('Wystąpił błąd podczas usuwania kolumny.'));
     }
 });
+
+//MODAL COLUMN
+const editColumnModal = document.getElementById('edit-column-modal');
+const editColumnForm = document.getElementById('popup-edit-column-form');
+const closeEditColumnModalBtn = document.getElementById('close-edit-column-modal-btn');
+const editColumnInput = document.getElementById('edit-column-name-input');
+
+if (editColumnModal && editColumnForm) {
+    document.body.addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('open-edit-column-modal-btn')) {
+            e.preventDefault();
+
+            const currentName = e.target.getAttribute('data-column-name');
+            const actionUrl = e.target.getAttribute('data-action-url');
+
+            if (editColumnInput) editColumnInput.value = currentName;
+
+            editColumnForm.action = actionUrl;
+
+            editColumnModal.classList.remove('hidden');
+        }
+    });
+
+    closeEditColumnModalBtn?.addEventListener('click', function (e) {
+        e.preventDefault();
+        editColumnModal.classList.add('hidden');
+    });
+
+    editColumnModal.addEventListener('click', function (e) {
+        if (e.target === editColumnModal) {
+            editColumnModal.classList.add('hidden');
+        }
+    });
+}
