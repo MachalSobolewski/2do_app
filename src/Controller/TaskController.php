@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\BoardColumn;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Service\ModelRemover;
@@ -56,6 +55,7 @@ final class TaskController extends AbstractController
     public function delete(int $id, ModelRemover $remover): Response
     {
         $remover->delete($id, Task::class);
+
         return $this->json(['success' => true]);
     }
 }

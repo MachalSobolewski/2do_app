@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Board;
 use App\Entity\BoardColumn;
 use App\Form\BoardColumnType;
 use App\Service\BoardColumn\BoardColumnCreator;
@@ -61,6 +60,7 @@ final class BoardColumnController extends AbstractController
     public function delete(int $id, ModelRemover $remover): Response
     {
         $remover->delete($id, BoardColumn::class);
+
         return $this->json(['success' => true]);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Service;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -14,7 +15,7 @@ class ModelRemover
     {
         $model = $this->em->getRepository($className)->find($id);
 
-        if(!$model){
+        if (!$model) {
             throw new NotFoundHttpException('Model not found');
         }
 

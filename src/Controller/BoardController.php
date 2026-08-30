@@ -96,6 +96,7 @@ final class BoardController extends AbstractController
     public function delete(int $id, ModelRemover $remover): Response
     {
         $remover->delete($id, Board::class);
+
         return $this->redirectToRoute('board_index');
     }
 }
