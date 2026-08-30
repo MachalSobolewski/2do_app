@@ -1,0 +1,14 @@
+<turbo-stream action="append" target="kanban-wrapper">
+    <template>
+        {% include 'board_column/single_column.html.twig' with {'column': column} %}
+    </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="new-column-form">
+    <template>
+        {{ form_start(columnForm, {'attr': {'class': 'space-y-3', 'id': 'new-column-form'}}) }}
+        {{ form_row(columnForm.name) }}
+        {{ form_row(columnForm.save) }}
+        {{ form_end(columnForm) }}
+    </template>
+</turbo-stream>

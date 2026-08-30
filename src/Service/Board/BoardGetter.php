@@ -4,6 +4,7 @@ namespace App\Service\Board;
 
 use App\Entity\Board;
 use App\Repository\BoardRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class BoardGetter
 {
@@ -17,8 +18,14 @@ readonly class BoardGetter
         return $this->boardRepository->getAllOrderedByName();
     }
 
-    public function show(int $id): ?Board
+    public function show(int $id): Board
     {
-        return $this->boardRepository->getOneById($id);
+        $board = $this->boardRepository->getOneById($id);
+
+        if (!$board) {
+            throw new NotFoundHttpException('Nie znaleziono tablicy');
+        }
+
+        return $board;
     }
 }

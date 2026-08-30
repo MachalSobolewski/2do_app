@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Board;
+use App\Entity\BoardColumn;
+use App\Form\BoardColumnType;
 use App\Form\BoardType;
 use App\Service\Board\BoardCreator;
 use App\Service\Board\BoardGetter;
@@ -21,8 +23,7 @@ final class BoardController extends AbstractController
     )]
     public function index(BoardGetter $boardGetter): Response
     {
-        $board = new Board();
-        $form = $this->createForm(BoardType::class, $board, [
+        $form = $this->createForm(BoardType::class, new Board(), [
             'action' => $this->generateUrl('board_new'),
             'method' => 'POST',
         ]);
@@ -38,13 +39,13 @@ final class BoardController extends AbstractController
     #[Route(
         path: '/new',
         name: 'board_new',
-        methods: ['POST'])]
+        methods: ['POST']
+    )]
     public function new(
         Request $request,
         BoardCreator $boardCreator,
     ): Response {
-        $post = new Board();
-        $form = $this->createForm(BoardType::class, $post);
+        $form = $this->createForm(BoardType::class, new Board());
 
         $form->handleRequest($request);
 
@@ -58,20 +59,26 @@ final class BoardController extends AbstractController
 
         $this->addFlash('error', 'Nie udało się utworzyć tablicy. Sprawdź wprowadzone dane.');
 
-        return $this->redirectToRoute('app_board_index');
+        return $this->redirectToRoute('board_index');
     }
 
-    #[Route('/board/{id}', name: 'board_show', methods: ['GET'])]
+    #[Route(
+        path: '/{id}',
+        name: 'board_show',
+        methods: ['GET']
+    )]
     public function show(int $id, BoardGetter $boardGetter): Response
     {
         $board = $boardGetter->show($id);
 
-        if (!$board) {
-            throw $this->createNotFoundException('Nie znaleziono takiej tablicy.');
-        }
+        $columnForm = $this->createForm(BoardColumnType::class, new BoardColumn(), [
+            'action' => $this->generateUrl('board_column_new', ['boardId' => $board->getId()]),
+            'method' => 'POST',
+        ]);
 
         return $this->render('board/show.html.twig', [
             'board' => $board,
+            'columnForm' => $columnForm->createView(),
         ]);
     }
 }
